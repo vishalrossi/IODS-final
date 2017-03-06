@@ -1,0 +1,13 @@
+---
+title: "Final project information"
+author: "Vishal Sinha"
+date: "05/03/2017"
+output: html_document
+---
+  
+### Something about the final project
+  
+This is an information on the final project to be submitted for Open Data Sciencecourse taught by **Kimmo Vehkalahti**. The lectures and hands on exercises were conducted every Thurday from 8-10am at Unioninkatu 35. The course started on 19.01.2017 and we need to submit the final assignment on 08.03.2017. For the final project, combine two statistical methods introduced during the course to analyze the data.
+
+[Course Diary final project link]
+<https://vishalrossi.github.io/IODS-final/>
