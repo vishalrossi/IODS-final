@@ -1,4 +1,10 @@
-```{r warning=FALSE}
+```{r global_options, include=TRUE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+
+```{r}
+### Load all the libraries required for the analysis
 library(ggplot2)
 library("GGally")
 library(corrplot)

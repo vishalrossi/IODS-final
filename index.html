@@ -119,21 +119,12 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>library(ggplot2)
+<pre class="r"><code>knitr::opts_chunk$set(warning=FALSE, message=FALSE)</code></pre>
+<pre class="r"><code>### Load all the libraries required for the analysis
+library(ggplot2)
 library(&quot;GGally&quot;)
 library(corrplot)
 library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following object is masked from 'package:GGally':
-## 
-##     nasa</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>data = read.csv(&quot;/Users/vsinha/Downloads/2015.csv&quot;, header = T)
 dim(data)</code></pre>
 <pre><code>## [1] 158  12</code></pre>
