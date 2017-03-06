@@ -1,0 +1,30 @@
+library(ggplot2)
+library("GGally")
+library(corrplot)
+library(dplyr)
+data = read.csv("/Users/vsinha/Downloads/2015.csv", header = T)
+dim(data)
+str(data)
+summary(data)
+colnames(data)
+colnames(data) = c("Country","Region","Rank","Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
+keep_columns <- c("Country","Rank","Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
+working_data <- select(data, one_of(keep_columns))
+dim(working_data)
+str(working_data)
+summary(working_data)
+check <- working_data[,-1]
+rownames(check) <- working_data[,1]
+ggpairs(check) + ggtitle("All variables against each other")
+cor_matrix = cor(check) 
+corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "r", tl.pos = "d", tl.cex = 0.5, addCoef.col = "black")
+#working_data = cbind(data$Region,working_data)
+#names(working_data)[names(working_data)=="data$Region"] <- "Region"
+#ggpairs(working_data, mapping = aes(col = Region, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20))) + ggtitle("All variables against each other")
+
+keep_columns <- c("Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
+a <- select(check, one_of(keep_columns))
+scale_data=scale(a)
+pca = prcomp(scale_data)
+biplot(pca, choices = 1:2, cex = c(0.7, 1), col = c("grey40", "deeppink2"))
+
