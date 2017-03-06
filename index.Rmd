@@ -1,4 +1,4 @@
-```{r echo=FALSE}
+```{r warning=FALSE}
 library(ggplot2)
 library("GGally")
 library(corrplot)
