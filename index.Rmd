@@ -1,11 +1,16 @@
+```{r}
 library(ggplot2)
 library("GGally")
 library(corrplot)
 library(dplyr)
+```
+
+```{r}
 data = read.csv("/Users/vsinha/Downloads/2015.csv", header = T)
 dim(data)
 str(data)
 summary(data)
+```
 colnames(data)
 colnames(data) = c("Country","Region","Rank","Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
 keep_columns <- c("Country","Rank","Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
