@@ -2,7 +2,7 @@
 # Author: Vishal Sinha
 # Date: 05 March 2017
 # Exercise: Data wrangling
-# File: Student alcohol consumption
+# File: World happiness report
 
 ### Load all the libraries required for the analysis
 library(ggplot2)

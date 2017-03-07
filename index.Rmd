@@ -9,6 +9,13 @@ output: html_document
 knitr::opts_chunk$set(fig.width=8, fig.height=8, warning=FALSE, message=FALSE)
 ```
 
+#### Abstract
+For the chosen data i.e. World Happiness Report 2016, PCA was applied for the dimension reduction. There were 5 Principal Components for the dataset, differentating the countries into rich and developed countries and poor countries that have been into civil war in the last two decades.
+
+I am working on the World Happiness Report 2016 dataset from Kaggle, that ranks countries in terms of happiness based on several indices answered by the people belonging to that country. Using a dimension reduction technnique (PCA), I would like to convert a set of correlated variables into linearly uncorrelated variables.
+
+[Link to data wrangling](https://github.com/vishalrossi/IODS-final/blob/master/wrangling.R)
+
 
 ```{r}
 ### Load all the libraries required for the analysis
@@ -20,6 +27,7 @@ library(factoextra)
 library(FactoMineR)
 ```
 
+
 ```{r}
 ### Read the cor data
 data_cor = read.table("/Users/vsinha/IODS-final/corr_final_data", header = T)
@@ -29,14 +37,17 @@ str(data_cor)
 summary(data_cor)
 ```
 
-```{r}
+
+The dataset comes from Kaggle. It is the world happiness report 2016 which ranks 157 countries by their happiness levels. Leading experts across fields: economics, psychology, survey analysis, national statistics, health, public policy and more: describe how measurements of well-being can be used effectively to assess the progress of nations. The reports review the state of happiness in the world today and show how the new science of happiness explains personal and national variations in happiness. They reflect a new worldwide demand for more attention to happiness as a criteria for government policy.
+
+The columns following the happiness score estimate the extent to which each of six factors: economic production, social support, life expectancy, freedom, absence of corruption, and generosity, that contribute to making life evaluations higher in each country than they are in Dystopia, a hypothetical country that has values equal to the world's lowest national averages for each of the six factors. They have no impact on the total score reported for each country, but they do explain why some countries rank higher than others. Before doing the analysis, I have  computed the standard error for happiness based on the confidence interval. Additionally, the regions have been removed from the data.
+
+
+```{r echo=FALSE}
 ### Read the pca data
 data_pca = read.table("/Users/vsinha/IODS-final/pca_data", header = T)
-### Explore the pca data
-dim(data_pca)
-str(data_pca)
-summary(data_pca)
 ```
+
 
 ```{r}
 ### Plot all variables against each other
@@ -46,13 +57,52 @@ cor_matrix = cor(data_cor)
 corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "r", tl.pos = "d", tl.cex = 0.5, addCoef.col = "black")
 ```
 
+
+All the variables except **Dystopia** show skewness i.e. they are not normally distributed. As seen from the plots, **Rank** is almost negatively correlated **(-0.996)** to **Score**. Which means better the rank, higher is the happiness score. There seems to be a significant positive correlation between **GDP and Age (0.839)**. 
+
+
+Principal component analysis (PCA): Main features -
+1. Implements an orthogonal transformation to convert a set of correlated variables into linearly uncorrelated variables called principal components (PCs). 
+2. The number of principal components is less than or equal to the number of original variables.
+3. The first principal component has the largest possible variance, the second principal component has the second highest variance and so on. 
+4. PCA is sensitive to the relative scaling of the original variables.
+5. Functions **princomp** and **prcomp** can be used for principal component analysis in R.
+
+### PCA
+
+##### Witout scaling the data
 ```{r}
+pca = prcomp(data_pca)
+pca
+summary(pca)
+biplot(pca, choices = 1:2, cex = c(0.7, 1), col = c("blue", "red"))
+```
+
+
+The PCA analysis without scaling the data is not successful in dimension reduction. The biplot is not very informative as the PC1 is not really succeed in classyfying and explore the data. 81% of the variance is captured by variables except Score and Dystopia.
+
+
+##### Validation analysis of PCA
+```{r}
+### Scale the data for PCA analysis
 scale_data=scale(data_pca)
 pca = prcomp(scale_data)
 pca
 summary(pca)
-biplot(pca, choices = 1:2, cex = c(0.7, 1), col = c("grey40", "deeppink2"))
+### Get contribution of each parameter to PC
+aload <- abs(pca$rotation)
+sweep(aload, 2, colSums(aload), "/")
+### Plot PCA
+biplot(pca, choices = 1:2, cex = c(0.7, 1), col = c("black", "red"))
+### Get the eigenvalues
 eigenvalues <- get_eigenvalue(pca)
 head(round(eigenvalues, 2))
+### Plot the variance of each eigrnvalue
 fviz_screeplot(pca)
 ```
+
+
+From the above PCA plot, it can se seen that variables are clearly associated with PC1 and PC2. There are five broad groups in the PCA analysis. The first group consists of variables GDP, Score, Age and Family. They are all very closely aligned with negative values of PC1. A high score in these variables is associated with developed countries mostly from Europe. The variables forming PC1 are significantly positively correlated as the angles between the arrows is less. PC1 display high income, well-being and prosperity. The second group consists of variables Freedom and Trust. They are associated with PC2, but correlate negatively with it and are thus orthogonal to PC1. They display freedom of expression and trust in the government. This group also contains developed countries. The third group consists of variable Generous. They are associated with PC2. Dystopia and Error form the remaining two groups. They contain poor countries, most of them were involved in a civil war in last two decades. The 1st PC explains 43% data, 2nd PC expalins 16% data, 3rd PC explains 13% and so on. 
+
+#### Conclusion and discussion
+PCA was successfully applied to the dataset, thus reducing its dimension. We can use 1st 6 PCs to explain 94% of the data instead of using all the 9 variables.  
