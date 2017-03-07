@@ -1,5 +1,12 @@
+---
+title: "Final project"
+author: "Vishal Sinha (vishal.sinha@helsinki.fi)"
+date: "3/05/2017"
+output: html_document
+---
+
 ```{r global_options, include=TRUE}
-knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(fig.width=8, fig.height=8, warning=FALSE, message=FALSE)
 ```
 
 
@@ -9,33 +16,43 @@ library(ggplot2)
 library("GGally")
 library(corrplot)
 library(dplyr)
+library(factoextra)
+library(FactoMineR)
 ```
 
 ```{r}
-data = read.csv("/Users/vsinha/Downloads/2015.csv", header = T)
-dim(data)
-str(data)
-summary(data)
+### Read the cor data
+data_cor = read.table("/Users/vsinha/IODS-final/corr_final_data", header = T)
+### Explore the cor data
+dim(data_cor)
+str(data_cor)
+summary(data_cor)
 ```
-colnames(data)
-colnames(data) = c("Country","Region","Rank","Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
-keep_columns <- c("Country","Rank","Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
-working_data <- select(data, one_of(keep_columns))
-dim(working_data)
-str(working_data)
-summary(working_data)
-check <- working_data[,-1]
-rownames(check) <- working_data[,1]
-ggpairs(check) + ggtitle("All variables against each other")
-cor_matrix = cor(check) 
+
+```{r}
+### Read the pca data
+data_pca = read.table("/Users/vsinha/IODS-final/pca_data", header = T)
+### Explore the pca data
+dim(data_pca)
+str(data_pca)
+summary(data_pca)
+```
+
+```{r}
+### Plot all variables against each other
+ggpairs(data_cor) + ggtitle("All variables against each other")
+### Plot the correlation matrix
+cor_matrix = cor(data_cor) 
 corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "r", tl.pos = "d", tl.cex = 0.5, addCoef.col = "black")
-#working_data = cbind(data$Region,working_data)
-#names(working_data)[names(working_data)=="data$Region"] <- "Region"
-#ggpairs(working_data, mapping = aes(col = Region, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20))) + ggtitle("All variables against each other")
+```
 
-keep_columns <- c("Score","Error","GDP","Family","Age","Freedom","Trust","Generous","Dystopia")
-a <- select(check, one_of(keep_columns))
-scale_data=scale(a)
+```{r}
+scale_data=scale(data_pca)
 pca = prcomp(scale_data)
+pca
+summary(pca)
 biplot(pca, choices = 1:2, cex = c(0.7, 1), col = c("grey40", "deeppink2"))
-
+eigenvalues <- get_eigenvalue(pca)
+head(round(eigenvalues, 2))
+fviz_screeplot(pca)
+```
