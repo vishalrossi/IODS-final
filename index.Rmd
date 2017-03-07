@@ -12,6 +12,7 @@ knitr::opts_chunk$set(fig.width=8, fig.height=8, warning=FALSE, message=FALSE)
 #### Abstract
 For the chosen data i.e. World Happiness Report 2016, PCA was applied for the dimension reduction. There were 5 Principal Components for the dataset, differentating the countries into rich and developed countries and poor countries that have been into civil war in the last two decades.
 
+#### Description of research question
 I am working on the World Happiness Report 2016 dataset from Kaggle, that ranks countries in terms of happiness based on several indices answered by the people belonging to that country. Using a dimension reduction technnique (PCA), I would like to convert a set of correlated variables into linearly uncorrelated variables.
 
 [Link to data wrangling](https://github.com/vishalrossi/IODS-final/blob/master/wrangling.R)
@@ -54,7 +55,7 @@ data_pca = read.table("/Users/vsinha/IODS-final/pca_data", header = T)
 ggpairs(data_cor) + ggtitle("All variables against each other")
 ### Plot the correlation matrix
 cor_matrix = cor(data_cor) 
-corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "r", tl.pos = "d", tl.cex = 0.5, addCoef.col = "black")
+corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "r", tl.pos = "d", tl.cex = 0.8, addCoef.col = "black")
 ```
 
 
