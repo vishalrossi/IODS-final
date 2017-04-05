@@ -52,14 +52,14 @@ data_pca = read.table("/Users/vsinha/IODS-final/pca_data", header = T)
 
 ```{r}
 ### Plot all variables against each other
-ggpairs(data_cor) + ggtitle("All variables against each other")
+ggpairs(data_cor) + ggtitle("All variables against each other") + theme(plot.title = element_text(hjust = 0.5)) 
 ### Plot the correlation matrix
 cor_matrix = cor(data_cor) 
 corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "r", tl.pos = "d", tl.cex = 0.8, addCoef.col = "black")
 ```
 
 
-All the variables except **Dystopia** show skewness i.e. they are not normally distributed. As seen from the plots, **Rank** is almost negatively correlated **(-0.996)** to **Score**. Which means better the rank, higher is the happiness score. There seems to be a significant positive correlation between **GDP and Age (0.839)**. 
+All the variables except **Dystopia** show skewness i.e. they are not normally distributed. As seen from the plots, **Rank** is almost negatively linearly correlated **(-0.996)** to **Score**. Which means better the rank, higher is the happiness score. There seems to be a significant positive correlation between **GDP and Age (0.839)**. 
 
 
 Principal component analysis (PCA): Main features -
@@ -103,7 +103,7 @@ fviz_screeplot(pca)
 ```
 
 
-From the above PCA plot, it can se seen that variables are clearly associated with PC1 and PC2. There are five broad groups in the PCA analysis. The first group consists of variables GDP, Score, Age and Family. They are all very closely aligned with negative values of PC1. A high score in these variables is associated with developed countries mostly from Europe. The variables forming PC1 are significantly positively correlated as the angles between the arrows is less. PC1 display high income, well-being and prosperity. The second group consists of variables Freedom and Trust. They are associated with PC2, but correlate negatively with it and are thus orthogonal to PC1. They display freedom of expression and trust in the government. This group also contains developed countries. The third group consists of variable Generous. They are associated with PC2. Dystopia and Error form the remaining two groups. They contain poor countries, most of them were involved in a civil war in last two decades. The 1st PC explains 43% data, 2nd PC expalins 16% data, 3rd PC explains 13% and so on. 
+From the above PCA plot, it can se seen that variables are clearly associated with PC1 and PC2. There are five broad groups in the PCA analysis. The first group consists of variables GDP, Score, Age and Family. They are all negatively correlated to PC1. A high score in these variables is associated with developed countries mostly from Europe. The variables forming PC1 are significantly positively correlated as the angles between the arrows is less. PC1 display high income, well-being and prosperity. The second group consists of variables Freedom and Trust. They are associated with PC2, but correlate negatively with it and are thus orthogonal to PC1. They display freedom of expression and trust in the government. This group also contains developed countries. The third group consists of variable Generous. They are associated with PC2. Dystopia and Error form the remaining two groups. They contain poor countries, most of them were involved in a civil war in last two decades. Dystopia is positively correlated to PC2 whereas Error is positively correlated to PC1. The 1st PC explains 43% data, 2nd PC expalins 16% data, 3rd PC explains 13% and so on. 
 
 #### Conclusion and discussion
 PCA was successfully applied to the dataset, thus reducing its dimension. We can use 1st 6 PCs to explain 94% of the data instead of using all the 9 variables.  
